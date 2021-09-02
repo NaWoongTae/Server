@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "l6NxxakVBofub75LazYBIPjyMAdQjnH8Wd/O6y2PrbfpmdshtOjQVwTCG0SmPXM0kdl0tWxNXz8x20op2AgFRg==",
+  "dgSpecHash": "CW9J6UR7PXnblJ5LymG8LCXouN3JM53tpCig9cS4uLVl0UM/uckF4DvYHx2Re/tv3+JRmLYg+PL8wPeFNI293w==",
   "success": true,
-  "projectFilePath": "D:\\2021unity\\VisualStudio_Study\\Server\\DummyClient\\DummyClient.csproj",
+  "projectFilePath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\DummyClient\\DummyClient.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

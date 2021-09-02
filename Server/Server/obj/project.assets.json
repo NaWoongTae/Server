@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\Server.csproj",
+      "projectUniqueName": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\Server.csproj",
+      "projectPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\skdnd\\.nuget\\packages\\",
-      "outputPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\obj\\",
+      "outputPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

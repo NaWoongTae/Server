@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\2021unity\\VisualStudio_Study\\Server\\DummyClient\\DummyClient.csproj": {}
+    "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\DummyClient\\DummyClient.csproj": {}
   },
   "projects": {
-    "D:\\2021unity\\VisualStudio_Study\\Server\\DummyClient\\DummyClient.csproj": {
+    "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\DummyClient\\DummyClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\2021unity\\VisualStudio_Study\\Server\\DummyClient\\DummyClient.csproj",
+        "projectUniqueName": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\DummyClient\\DummyClient.csproj",
         "projectName": "DummyClient",
-        "projectPath": "D:\\2021unity\\VisualStudio_Study\\Server\\DummyClient\\DummyClient.csproj",
+        "projectPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\DummyClient\\DummyClient.csproj",
         "packagesPath": "C:\\Users\\skdnd\\.nuget\\packages\\",
-        "outputPath": "D:\\2021unity\\VisualStudio_Study\\Server\\DummyClient\\obj\\",
+        "outputPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\DummyClient\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

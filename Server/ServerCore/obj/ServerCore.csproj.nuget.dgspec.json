@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\2021unity\\VisualStudio_Study\\Server\\ServerCore\\ServerCore.csproj": {}
+    "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\ServerCore\\ServerCore.csproj": {}
   },
   "projects": {
-    "D:\\2021unity\\VisualStudio_Study\\Server\\ServerCore\\ServerCore.csproj": {
+    "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\ServerCore\\ServerCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\2021unity\\VisualStudio_Study\\Server\\ServerCore\\ServerCore.csproj",
+        "projectUniqueName": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\ServerCore\\ServerCore.csproj",
         "projectName": "ServerCore",
-        "projectPath": "D:\\2021unity\\VisualStudio_Study\\Server\\ServerCore\\ServerCore.csproj",
+        "projectPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\ServerCore\\ServerCore.csproj",
         "packagesPath": "C:\\Users\\skdnd\\.nuget\\packages\\",
-        "outputPath": "D:\\2021unity\\VisualStudio_Study\\Server\\ServerCore\\obj\\",
+        "outputPath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\ServerCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

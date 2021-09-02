@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Jg1Ad4Xl/VImmPzHJ+9Z6zdEgDITTWnAmZD4EtQUUq9AAlYZBm/v4yhpobN5PgSvUigUEUDAFN5Sq0q3nAL/gA==",
+  "dgSpecHash": "M2byrviKBQA3bsbbyieozCX+2kqNdJ/Xp0aDVZCR3PTGZcB9QTkHEPi4quuJYLLpD7kREDvF5rvvAhLUQhy8ug==",
   "success": true,
-  "projectFilePath": "D:\\2021unity\\VisualStudio_Study\\Server\\ServerCore\\ServerCore.csproj",
+  "projectFilePath": "D:\\2021unity\\VisualStudio_Study\\Server\\Server\\ServerCore\\ServerCore.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
