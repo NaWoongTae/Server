@@ -1,0 +1,13 @@
+D:\2021unity\VisualStudio_Study\Server\ServerCore\bin\Release\netcoreapp3.1\ServerCore.exe
+D:\2021unity\VisualStudio_Study\Server\ServerCore\bin\Release\netcoreapp3.1\ServerCore.deps.json
+D:\2021unity\VisualStudio_Study\Server\ServerCore\bin\Release\netcoreapp3.1\ServerCore.runtimeconfig.json
+D:\2021unity\VisualStudio_Study\Server\ServerCore\bin\Release\netcoreapp3.1\ServerCore.runtimeconfig.dev.json
+D:\2021unity\VisualStudio_Study\Server\ServerCore\bin\Release\netcoreapp3.1\ServerCore.dll
+D:\2021unity\VisualStudio_Study\Server\ServerCore\bin\Release\netcoreapp3.1\ServerCore.pdb
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.csprojAssemblyReference.cache
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.dll
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.pdb
+D:\2021unity\VisualStudio_Study\Server\ServerCore\obj\Release\netcoreapp3.1\ServerCore.genruntimeconfig.cache
