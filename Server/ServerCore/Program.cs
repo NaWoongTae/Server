@@ -7,30 +7,46 @@ namespace ServerCore
 {
     class Program
     {
-        // 특정 순간에만 lock
-        // writeLock이 걸리지 않는다면 ReadLock이 없는것처럼 작동한다.
-        static ReaderWriterLockSlim _lock4 = new ReaderWriterLockSlim();
-
-        class Reward { }
-        static Reward GetRewardById(int id)
-        {
-            _lock4.EnterReadLock();
-            // 행동
-            _lock4.ExitReadLock();
-
-            return null;
-        }
-
-        void AddReward(Reward reward)
-        {
-            _lock4.EnterWriteLock();
-
-            _lock4.ExitWriteLock();
-        }
+        static volatile int count = 0;
+        static Lock _lock = new Lock();
 
         static void Main(string[] args)
         {
+            Task t1 = new Task(delegate ()
+            {
+                foreach (int i in Enumerable.Range(1, 1000))
+                {
+                    _lock.ReadLock();
+                    count++;
+                    _lock.ReadUnlock();
+                }
+            });
+            Task t2 = new Task(delegate ()
+            {
+                foreach (int i in Enumerable.Range(1, 1000))
+                {
+                    _lock.ReadLock();
+                    count--;
+                    _lock.ReadUnlock();
+                }
+            });
+            Task t3 = new Task(delegate ()
+            {
+                foreach (int i in Enumerable.Range(1, 1000))
+                {
+                    _lock.ReadLock();
+                    //count--;
+                    _lock.ReadUnlock();
+                }
+            });
 
+            t1.Start();
+            t2.Start();
+            t3.Start();
+
+            Task.WaitAll(t1, t2, t3);
+
+            Console.WriteLine(count);
         }
     }
 }
