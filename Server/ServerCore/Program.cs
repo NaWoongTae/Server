@@ -5,43 +5,42 @@ using System.Linq;
 
 namespace ServerCore
 {
-    class SpinLock
+    // 커널레벨까지 가서 요청하기 때문에 spinLock에 비해 매우 오래걸림
+    class Lock
     {
-        volatile int _locked = 0;
+        // bool <- 커널
+        // 생성자의 인자 bool값 문이 열린/닫힌상태로 시작할 것인지
+        AutoResetEvent _available = new AutoResetEvent(true); // 자동으로 문 닫아줌
+        
+        ManualResetEvent _mAvailable = new ManualResetEvent(true); // 자동으로 문 안닫아줌
+
         public void Acquire()
-        {            
-            while (true)
-            {
-                //int origin = Interlocked.Exchange(ref _locked, 1);                
-                //if (origin == 0) // 원래 0이었을때만
-                //    break;
-
-                // CAS Compare-And-Swap
-                int expected = 0; // 예상값;
-                int desired = 1; // 원하는값
-                if (Interlocked.CompareExchange(ref _locked, desired, expected) == expected) // 여기서 즉시 재시도 해야 spinlock
-                    break;
-
-                Thread.Sleep(1); // 1ms 쉼
-                Thread.Sleep(0); // 조건부 양보 => 나보다 우선순위가 낮은 애들한테는 양보 불가 => 우선순위가 나보다 같거나 높은 쓰레드가 없으면 다시 본인
-                Thread.Yield(); // 관대한 양보 => 지금 실행 가능한 쓰레드가 있으면 실행가능 => 실행 가능한 애 없으면 다시 본인
+        {
+            _available.WaitOne(); // 입장 시도
+            // _available.Reset(); // bool => false , 사실상 WaitOne에 포함
+            
+            { 
+                _mAvailable.WaitOne(); // 입장시도
+                _mAvailable.Reset();   // 문 닫기  --  이런식으로 행동이 분화 될수록 멀티스레드에서 문제가 생길 확률이 높음
+                // 여러가지 스레드들이 기다렸다가 한번에 실행되어야 할때 사용 - ex) 긴 로딩후 여러가지실행
+                // 일반적인 lock이랑은 시나리오가 다르다.
             }
         }
 
         public void Release()
         {
-            _locked = 0; // 사용 종료
+            _available.Set(); // bool => true;
         }
     }
 
     class Program
     {
         static int _num = 0;
-        static SpinLock _lock = new SpinLock();
+        static Lock _lock = new Lock();
 
         static void Thread_1()
         {
-            foreach (int i in Enumerable.Range(1, 1000000))
+            foreach (int i in Enumerable.Range(1, 10000))
             {
                 _lock.Acquire();
                 _num++;
@@ -51,7 +50,7 @@ namespace ServerCore
 
         static void Thread_2()
         {
-            foreach (int i in Enumerable.Range(1, 1000000))
+            foreach (int i in Enumerable.Range(1, 10000))
             {
                 _lock.Acquire();
                 _num--;
