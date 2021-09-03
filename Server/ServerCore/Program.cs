@@ -1,57 +1,60 @@
 ﻿using System;
+using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace ServerCore
 {
     class Program
     {
-        // TLS Thread Local Storage 스레드 개별 데이터를 만들어준다. 각 스레드안의 스토리지에 ThreadName 라는 같은 이름의 데이터를 생성하는것같다.
-        static ThreadLocal<string> ThreadName = new ThreadLocal<string>(()=> { return $"my ThreadLocal name is {Thread.CurrentThread.ManagedThreadId}"; });
-        static string threadname;
-
-        // 스레드를 마구잡이로 썼을때 TLS인 ThreadName가 각각의 id를 잘 반환하는지 체크
-        static void WhoAmI_0()
-        {
-            ThreadName.Value = $"my ThreadLocal name is {Thread.CurrentThread.ManagedThreadId}";
-
-            Thread.Sleep(1000);
-
-            Console.WriteLine(ThreadName.Value);
-        }
-
-        // 스레드를 마구잡이로 썼을때 일반 string 필드인 threadname가 각각의 id를 잘 반환하는지 체크
-        static void WhoAmI_1()
-        {
-            threadname = $"my Thread name is {Thread.CurrentThread.ManagedThreadId}";
-
-            Thread.Sleep(1000);
-
-            Console.WriteLine(threadname);
-        }
-
-        // WhoAmI_0과 같이 매번 스레드아이디를 가져와서 덮어쓰기 하지않고
-        // TLS 생성시 생성자를 통해 값을 설정후 저장된값을 사용
-        static void WhoAmI_2()
-        {
-            bool repeat = ThreadName.IsValueCreated; // 값이 생성 됬는지 체크
-
-            if (repeat)
-                Console.WriteLine(ThreadName.Value + " (repeat)");
-            else
-                Console.WriteLine(ThreadName.Value);
-        }
-
         static void Main(string[] args)
         {
-            ThreadPool.SetMinThreads(1, 1);
-            ThreadPool.SetMaxThreads(3, 3);
-            Parallel.Invoke(WhoAmI_0, WhoAmI_0, WhoAmI_0, WhoAmI_0, WhoAmI_0, WhoAmI_0, WhoAmI_0); // 쉽게 스레드 사용가능 ThreadPool에 영향
-            Parallel.Invoke(WhoAmI_1, WhoAmI_1, WhoAmI_1, WhoAmI_1, WhoAmI_1, WhoAmI_1, WhoAmI_1);
-            Parallel.Invoke(WhoAmI_2, WhoAmI_2, WhoAmI_2, WhoAmI_2, WhoAmI_2, WhoAmI_2, WhoAmI_2);
+            // DNS (Domain Name System)
+            string host = Dns.GetHostName();
+            Console.WriteLine($"My Host : {host}");
+            IPHostEntry ipHost = Dns.GetHostEntry(host);
+            IPAddress ipAddr = ipHost.AddressList[0];
+            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
-            ThreadName.Dispose();
+            try 
+            {
+                // 문지기
+                Socket listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+                // 문지기 교육
+                listenSocket.Bind(endPoint);
+
+                // 영업 시작
+                listenSocket.Listen(10); // backlog : 최대 대기수
+
+                while (true)
+                {
+                    Console.WriteLine(("Listening..."));
+
+                    // 손님 입장 (대리인 생성)
+                    Socket clientSocket = listenSocket.Accept(); // 클라이언트가 입장하지 않으면 멈추고 기다린다
+
+                    // 받는다
+                    byte[] receiveBuff = new byte[1024];
+                    int recvBytes = clientSocket.Receive(receiveBuff);
+                    string recvData = Encoding.UTF8.GetString(receiveBuff, 0, recvBytes);
+                    Console.WriteLine($"[From Client] {recvData}");
+
+                    // 보낸다
+                    byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to MMORPG Server !");
+                    clientSocket.Send(sendBuff);
+
+                    // 쫒아낸다
+                    clientSocket.Shutdown(SocketShutdown.Both);
+                    clientSocket.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            } 
         }
     }
 }
