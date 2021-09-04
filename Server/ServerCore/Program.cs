@@ -9,52 +9,44 @@ namespace ServerCore
 {
     class Program
     {
-        static void Main(string[] args)
+        static Listener _listener = new Listener();
+
+        static void OnAcceptHandler(Socket clientSocket)
         {
-            // DNS (Domain Name System)
-            string host = Dns.GetHostName();
-            Console.WriteLine($"My Host : {host}");
-            IPHostEntry ipHost = Dns.GetHostEntry(host);
-            IPAddress ipAddr = ipHost.AddressList[0];
-            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
-
-            try 
+            try
             {
-                // 문지기
-                Socket listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                // 보낸다
+                byte[] sendBuff = Encoding.UTF8.GetBytes("클라에게, 안녕? 나는 서버야. -서버가-");
+                int sendLen = clientSocket.Send(sendBuff);
 
-                // 문지기 교육
-                listenSocket.Bind(endPoint);
+                // 받는다
+                byte[] recvBuff = new byte[1024];
+                int recvLen = clientSocket.Receive(recvBuff);
+                string recv = Encoding.UTF8.GetString(recvBuff, 0, recvLen);
+                Console.WriteLine(recv);
 
-                // 영업 시작
-                listenSocket.Listen(10); // backlog : 최대 대기수
-
-                while (true)
-                {
-                    Console.WriteLine(("Listening..."));
-
-                    // 손님 입장 (대리인 생성)
-                    Socket clientSocket = listenSocket.Accept(); // 클라이언트가 입장하지 않으면 멈추고 기다린다
-
-                    // 받는다
-                    byte[] receiveBuff = new byte[1024];
-                    int recvBytes = clientSocket.Receive(receiveBuff);
-                    string recvData = Encoding.UTF8.GetString(receiveBuff, 0, recvBytes);
-                    Console.WriteLine($"[From Client] {recvData}");
-
-                    // 보낸다
-                    byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to MMORPG Server !");
-                    clientSocket.Send(sendBuff);
-
-                    // 쫒아낸다
-                    clientSocket.Shutdown(SocketShutdown.Both);
-                    clientSocket.Close();
-                }
+                // 종료
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-            } 
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress Adrs = host.AddressList[0];
+            IPEndPoint endPoint = new IPEndPoint(Adrs, 7777);
+
+            _listener.Init(endPoint, OnAcceptHandler);
+
+            while (true) //(임시) 프로그램 종료 방지
+            {
+
+            }
         }
     }
 }

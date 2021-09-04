@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace DummyClient
 {
@@ -9,39 +10,36 @@ namespace DummyClient
     {
         static void Main(string[] args)
         {
-            // DNS (Domain Name System)
-            string host = Dns.GetHostName(); 
-            Console.WriteLine($"My Host : {host}");
-            IPHostEntry ipHost = Dns.GetHostEntry(host);
-            IPAddress ipAddr = ipHost.AddressList[0];
-            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+            string host = Dns.GetHostName();
+            IPHostEntry iPHost = Dns.GetHostEntry(host);
+            IPAddress Adrs = iPHost.AddressList[0];
+            IPEndPoint end = new IPEndPoint(Adrs, 7777);
 
-            // 휴대폰 설정
-            Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-            try
+            while (true)
             {
-                // 입장 문의
-                socket.Connect(endPoint);
-                Console.WriteLine($"Connected To {socket.RemoteEndPoint.ToString()}");
+                Socket socket = new Socket(end.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-                // 보낸다
-                byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World!");
-                int sendByte = socket.Send(sendBuff);
+                try
+                {
+                    socket.Connect(end);
 
-                // 받는다
-                byte[] recvBuff = new byte[1024];
-                int recvBytes = socket.Receive(recvBuff);
-                string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
-                Console.WriteLine(recvData);
+                    byte[] sendBuff = Encoding.UTF8.GetBytes("서버에게, 안녕? 나는 클라야. -클라가-");
+                    int sendLen = socket.Send(sendBuff);
 
-                //나간다
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
+                    byte[] recvBuff = new byte[1024];
+                    int recvLen = socket.Receive(recvBuff);
+                    string recv = Encoding.UTF8.GetString(recvBuff, 0, recvLen);
+                    Console.WriteLine(recv);
+
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+
+                Thread.Sleep(1000);
             }
         }
     }
