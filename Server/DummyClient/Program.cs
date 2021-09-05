@@ -23,8 +23,12 @@ namespace DummyClient
                 {
                     socket.Connect(end);
 
-                    byte[] sendBuff = Encoding.UTF8.GetBytes("서버에게, 안녕? 나는 클라야. -클라가-");
-                    int sendLen = socket.Send(sendBuff);
+                    //string read = Console.ReadLine();
+                    for (int i = 0; i < 2; i++)
+                    {
+                        byte[] sendBuff = Encoding.UTF8.GetBytes($"서버에게, 안녕? 나는 {i}번 클라야. -클라가-");
+                        int sendLen = socket.Send(sendBuff);
+                    }
 
                     byte[] recvBuff = new byte[1024];
                     int recvLen = socket.Receive(recvBuff);

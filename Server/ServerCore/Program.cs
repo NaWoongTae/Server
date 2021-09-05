@@ -15,19 +15,16 @@ namespace ServerCore
         {
             try
             {
+                Session session = new Session();
+                session.Start(clientSocket);
+
                 // 보낸다
                 byte[] sendBuff = Encoding.UTF8.GetBytes("클라에게, 안녕? 나는 서버야. -서버가-");
-                int sendLen = clientSocket.Send(sendBuff);
+                session.Send(sendBuff);
 
-                // 받는다
-                byte[] recvBuff = new byte[1024];
-                int recvLen = clientSocket.Receive(recvBuff);
-                string recv = Encoding.UTF8.GetString(recvBuff, 0, recvLen);
-                Console.WriteLine(recv);
+                Thread.Sleep(1000);
 
-                // 종료
-                clientSocket.Shutdown(SocketShutdown.Both);
-                clientSocket.Close();
+                session.Disconnect();
             }
             catch (Exception e)
             {
