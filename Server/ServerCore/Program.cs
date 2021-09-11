@@ -7,30 +7,38 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
+    class GameSession : Session
+    {
+        public override void OnConnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnConnected : {endPoint}");
+
+            byte[] sendBuff = Encoding.UTF8.GetBytes("클라에게, 안녕? 나는 서버야. -서버가-");
+            Send(sendBuff);
+            Thread.Sleep(1000);
+            Disconnect();
+        }
+
+        public override void OnDisconnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnDisconnected : {endPoint}");
+        }
+
+        public override void OnRecv(ArraySegment<byte> buffer)
+        {
+            string recv = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+            Console.WriteLine($"[From Client] {recv}");
+        }
+
+        public override void OnSend(int numOfBytes)
+        {
+            Console.WriteLine($"Transferred bytes: {numOfBytes}");
+        }
+    }
+
     class Program
     {
         static Listener _listener = new Listener();
-
-        static void OnAcceptHandler(Socket clientSocket)
-        {
-            try
-            {
-                Session session = new Session();
-                session.Start(clientSocket);
-
-                // 보낸다
-                byte[] sendBuff = Encoding.UTF8.GetBytes("클라에게, 안녕? 나는 서버야. -서버가-");
-                session.Send(sendBuff);
-
-                Thread.Sleep(1000);
-
-                session.Disconnect();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
 
         static void Main(string[] args)
         {
@@ -38,7 +46,7 @@ namespace ServerCore
             IPAddress Adrs = host.AddressList[0];
             IPEndPoint endPoint = new IPEndPoint(Adrs, 7777);
 
-            _listener.Init(endPoint, OnAcceptHandler);
+            _listener.Init(endPoint, () => { return new GameSession(); });
 
             while (true) //(임시) 프로그램 종료 방지
             {

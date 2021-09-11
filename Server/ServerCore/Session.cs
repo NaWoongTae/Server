@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace ServerCore
 {
-    class Session
+    abstract class Session
     {
         Socket _socket;
         int _disconnected = 0;
@@ -18,6 +18,11 @@ namespace ServerCore
         List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
         SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
+
+        public abstract void OnConnected(EndPoint endPoint);
+        public abstract void OnRecv(ArraySegment<byte> buffer);
+        public abstract void OnSend(int numOfBytes);
+        public abstract void OnDisconnected(EndPoint endPoint);
 
         public void Start(Socket socket)
         {
@@ -46,6 +51,7 @@ namespace ServerCore
             if (Interlocked.Exchange(ref _disconnected, 1) == 1)
                 return;
 
+            OnDisconnected(_socket.RemoteEndPoint);
             _socket.Shutdown(SocketShutdown.Both);
             _socket.Close();
         }
@@ -84,7 +90,7 @@ namespace ServerCore
                         _sendArgs.BufferList = null;
                         _pendingList.Clear();
 
-                        Console.WriteLine($"Transferred bytes: {_sendArgs.BytesTransferred}");
+                        OnSend(_sendArgs.BytesTransferred);
 
                         if (_sendQueue.Count > 0)
                         {
@@ -118,8 +124,7 @@ namespace ServerCore
             {
                 try
                 {
-                    string recv = Encoding.UTF8.GetString(args.Buffer, args.Offset, args.BytesTransferred);
-                    Console.WriteLine($"[From Client] {recv}");
+                    OnRecv(new ArraySegment<byte>(args.Buffer, args.Offset, args.BytesTransferred));
 
                     RegisterRecv();
                 }
