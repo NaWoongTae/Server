@@ -3,9 +3,39 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using ServerCore;
 
 namespace DummyClient
 {
+    class GameSession : Session
+    {
+        public override void OnConnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnConnected : {endPoint}");
+
+            for (int i = 0; i < 2; i++)
+            {
+                byte[] sendBuff = Encoding.UTF8.GetBytes($"서버에게, 안녕? 나는 {i}번 클라야. -클라가-");
+                Send(sendBuff);
+            }
+        }
+
+        public override void OnDisconnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnDisconnected : {endPoint}");
+        }
+
+        public override void OnRecv(ArraySegment<byte> buffer)
+        {
+            string recv = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+            Console.WriteLine($"[From Server] {recv}");
+        }
+
+        public override void OnSend(int numOfBytes)
+        {
+            Console.WriteLine($"Transferred bytes: {numOfBytes}");
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -15,28 +45,14 @@ namespace DummyClient
             IPAddress Adrs = iPHost.AddressList[0];
             IPEndPoint end = new IPEndPoint(Adrs, 7777);
 
+            Connector connector = new Connector();
+
+            connector.Connect(end, () => new GameSession());
+
             while (true)
             {
-                Socket socket = new Socket(end.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
                 try
                 {
-                    socket.Connect(end);
-
-                    //string read = Console.ReadLine();
-                    for (int i = 0; i < 2; i++)
-                    {
-                        byte[] sendBuff = Encoding.UTF8.GetBytes($"서버에게, 안녕? 나는 {i}번 클라야. -클라가-");
-                        int sendLen = socket.Send(sendBuff);
-                    }
-
-                    byte[] recvBuff = new byte[1024];
-                    int recvLen = socket.Receive(recvBuff);
-                    string recv = Encoding.UTF8.GetString(recvBuff, 0, recvLen);
-                    Console.WriteLine(recv);
-
-                    socket.Shutdown(SocketShutdown.Both);
-                    socket.Close();
                 }
                 catch (Exception e)
                 {

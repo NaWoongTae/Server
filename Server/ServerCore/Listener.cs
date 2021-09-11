@@ -8,7 +8,7 @@ namespace ServerCore
 {
     // _listenSocket.Accept() 블로킹 함수를
     // 비동기형식으로 변경한 클래스
-    class Listener
+    public class Listener
     {
         Socket _listenSocket;
         Func<Session> _sessionFactory;

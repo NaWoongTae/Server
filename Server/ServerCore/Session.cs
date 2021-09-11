@@ -7,17 +7,15 @@ using System.Threading;
 
 namespace ServerCore
 {
-    abstract class Session
+    public abstract class Session
     {
         Socket _socket;
         int _disconnected = 0;
 
         object _lock = new object();
         Queue<byte[]> _sendQueue = new Queue<byte[]>();
-
-        List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
+        bool _pending = false;
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
-        SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
 
         public abstract void OnConnected(EndPoint endPoint);
         public abstract void OnRecv(ArraySegment<byte> buffer);
@@ -28,12 +26,13 @@ namespace ServerCore
         {
             _socket = socket;
 
-            _recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
-            _recvArgs.SetBuffer(new byte[1024], 0, 1024);
+            SocketAsyncEventArgs recvArgs = new SocketAsyncEventArgs();
+            recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
+            recvArgs.SetBuffer(new byte[1024], 0, 1024);
 
             _sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
 
-            RegisterRecv();
+            RegisterRecv(recvArgs);
         }
 
         public void Send(byte[] sendBuff)
@@ -41,7 +40,7 @@ namespace ServerCore
             lock (_lock)
             {
                 _sendQueue.Enqueue(sendBuff);
-                if (_pendingList.Count == 0)
+                if (_pending == false)
                     RegisterSend();
             }
         }
@@ -60,16 +59,9 @@ namespace ServerCore
 
         void RegisterSend()
         {
-            //_pendingList.Clear();
-            while (_sendQueue.Count > 0) 
-            {
-                byte[] buff = _sendQueue.Dequeue();
-                // BufferList는 ArraySegment형태의 리스트이다.
-                // ArraySegment는 구조체로 되어있어서 힙영역에 할당되는게 아니라 스택에 할당후 BufferList로 값복사
-                _pendingList.Add(new ArraySegment<byte>(buff, 0, buff.Length));
-            }
-
-            _sendArgs.BufferList = _pendingList;
+            _pending = true;
+            byte[] buff = _sendQueue.Dequeue();
+            _sendArgs.SetBuffer(buff, 0, buff.Length);
 
             bool pending = _socket.SendAsync(_sendArgs);
             if (pending == false)
@@ -88,7 +80,7 @@ namespace ServerCore
                     try
                     {
                         _sendArgs.BufferList = null;
-                        _pendingList.Clear();
+                        //_pendingList.Clear();
 
                         OnSend(_sendArgs.BytesTransferred);
 
@@ -96,6 +88,8 @@ namespace ServerCore
                         {
                             RegisterSend();
                         }
+                        else
+                            _pending = false;
                     }
                     catch (Exception e)
                     {
@@ -110,11 +104,11 @@ namespace ServerCore
             }
         }
 
-        void RegisterRecv()
+        void RegisterRecv(SocketAsyncEventArgs args)
         {
-            bool pending = _socket.ReceiveAsync(_recvArgs);
+            bool pending = _socket.ReceiveAsync(args);
             if (pending == false)
-                OnRecvCompleted(null, _recvArgs);
+                OnRecvCompleted(null, args);
         }
 
         void OnRecvCompleted(object sender, SocketAsyncEventArgs args)
@@ -126,7 +120,7 @@ namespace ServerCore
                 {
                     OnRecv(new ArraySegment<byte>(args.Buffer, args.Offset, args.BytesTransferred));
 
-                    RegisterRecv();
+                    RegisterRecv(args);
                 }
                 catch (Exception e)
                 {

@@ -11,3 +11,6 @@ D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\obj\Debug\netcoreapp3.
 D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.dll
 D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.pdb
 D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.genruntimeconfig.cache
+D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\bin\Debug\netcoreapp3.1\ServerCore.dll
+D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\bin\Debug\netcoreapp3.1\ServerCore.pdb
+D:\2021unity\VisualStudio_Study\Server\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.csproj.CopyComplete
