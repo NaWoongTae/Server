@@ -15,10 +15,11 @@ namespace ServerCore
         RecvBuffer _recvBuffer = new RecvBuffer(1024);
 
         object _lock = new object();
-        Queue<byte[]> _sendQueue = new Queue<byte[]>();
-        bool _pending = false;
+        Queue<ArraySegment<byte>> _sendQueue = new Queue<ArraySegment<byte>>();
+        //bool _pending = false;
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
         SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
+        List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
 
         public abstract void OnConnected(EndPoint endPoint);
         public abstract int OnRecv(ArraySegment<byte> buffer);
@@ -35,12 +36,12 @@ namespace ServerCore
             RegisterRecv();
         }
 
-        public void Send(byte[] sendBuff)
+        public void Send(ArraySegment<byte> sendBuff)
         {
             lock (_lock)
             {
                 _sendQueue.Enqueue(sendBuff);
-                if (_pending == false)
+                if (_pendingList.Count == 0)
                     RegisterSend();
             }
         }
@@ -59,9 +60,13 @@ namespace ServerCore
 
         void RegisterSend()
         {
-            _pending = true;
-            byte[] buff = _sendQueue.Dequeue();
-            _sendArgs.SetBuffer(buff, 0, buff.Length);
+            while(_sendQueue.Count > 0) 
+            {
+                ArraySegment<byte> buff = _sendQueue.Dequeue();
+                _pendingList.Add(buff);
+            }
+            //_pending = true;
+            _sendArgs.BufferList = _pendingList;
 
             bool pending = _socket.SendAsync(_sendArgs);
             if (pending == false)
@@ -80,7 +85,7 @@ namespace ServerCore
                     try
                     {
                         _sendArgs.BufferList = null;
-                        //_pendingList.Clear();
+                        _pendingList.Clear();
 
                         OnSend(_sendArgs.BytesTransferred);
 
@@ -88,8 +93,6 @@ namespace ServerCore
                         {
                             RegisterSend();
                         }
-                        else
-                            _pending = false;
                     }
                     catch (Exception e)
                     {
