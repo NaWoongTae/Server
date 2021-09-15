@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using ServerCore;
+using System.Collections.Generic;
 
 namespace DummyClient
 {
@@ -22,6 +23,37 @@ namespace DummyClient
         public long playerId;
         public string name;
 
+        public struct SkillInfo
+        {
+            public int id;
+            public short level;
+            public float duration;
+
+            public bool Write(Span<byte> s, ref ushort count)
+            {
+                bool success = true;
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), id);
+                count += sizeof(int);
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), level);
+                count += sizeof(short);
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), duration);
+                count += sizeof(float);
+
+                return success;
+            }
+
+            public void Read(ReadOnlySpan<byte> s, ref ushort count)
+            {
+                id = BitConverter.ToInt32(s.Slice(count, s.Length - count));
+                count += sizeof(int);
+                level = BitConverter.ToInt16(s.Slice(count, s.Length - count));
+                count += sizeof(short);
+                duration = BitConverter.ToSingle(s.Slice(count, s.Length - count));
+                count += sizeof(float);
+            }
+        }
+
+        public List<SkillInfo> skills = new List<SkillInfo>();
         public PlayerInfoReq()
         {
             packetId = (ushort)PacketID.PlayerInfoReq;
@@ -42,6 +74,18 @@ namespace DummyClient
             ushort nameLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
             count += sizeof(ushort);
             name = Encoding.Unicode.GetString(s.Slice(count, nameLen));
+            count += nameLen;
+
+            // skill list
+            skills.Clear();
+            ushort skillLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
+            count += sizeof(ushort);
+            for (int i = 0; i < skillLen; i++)
+            {
+                SkillInfo info = new SkillInfo();
+                info.Read(s, ref count);
+                skills.Add(info);
+            }
         }
 
         public override ArraySegment<byte> Write()
@@ -52,7 +96,7 @@ namespace DummyClient
             bool success = true;
 
             Span<byte> s = new Span<byte>(openSegment.Array, openSegment.Offset, openSegment.Count);
-                        
+
             count += sizeof(ushort);
             success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.packetId);
             count += sizeof(ushort);
@@ -60,16 +104,17 @@ namespace DummyClient
             count += sizeof(long);
 
             // string Len [2] // byte []
-            {
-                //ushort nameLen = (ushort)Encoding.Unicode.GetByteCount(name);
-                //success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), nameLen);
-                //count += sizeof(ushort);
-                //Array.Copy(Encoding.Unicode.GetBytes(name), 0, openSegment.Array, count, nameLen);
-                //count += nameLen;
+            ushort nameLen = (ushort)Encoding.Unicode.GetBytes(this.name, 0, this.name.Length, openSegment.Array, openSegment.Offset + count + sizeof(ushort));
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), nameLen);
+            count += (ushort)(sizeof(ushort) + nameLen);
 
-                ushort nameLen = (ushort)Encoding.Unicode.GetBytes(this.name, 0, this.name.Length, openSegment.Array, openSegment.Offset + count + sizeof(ushort));
-                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), nameLen);
-                count += (ushort)(sizeof(ushort) + nameLen);
+            // skill list
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)skills.Count);
+            count += sizeof(ushort);
+            foreach (SkillInfo skill in skills)
+            {
+                // To Do
+                success &= skill.Write(s, ref count);
             }
 
             success &= BitConverter.TryWriteBytes(s, count);
@@ -89,9 +134,13 @@ namespace DummyClient
         {
             Console.WriteLine($"OnConnected : {endPoint}");
 
-            //for (ushort i = 0; i < 4; i++)
-
             PlayerInfoReq packet = new PlayerInfoReq() { playerId = 1001, name = "opertion cwal" };
+            {
+                packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 10151, level = 6, duration = 0.34f });
+                packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 14758, level = 1, duration = 7.24f });
+                packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 65874, level = 4, duration = 0.99f });
+                packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 21245, level = 3, duration = 13.2f });
+            }
 
             ArraySegment<byte> s = packet.Write();
 
