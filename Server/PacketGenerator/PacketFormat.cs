@@ -6,6 +6,29 @@ namespace PacketGenerator
 {
     class PacketFormat
     {
+        // ======================= [ 파일 포멧 ] ===================================
+        
+        // {0} 패킷 이름/번호 목록
+        // {1} 패킷 목록
+        public static string fileFormat =
+@"using System;
+using System.Text;
+using System.Net;
+using System.Collections.Generic;
+using ServerCore;
+
+public enum PacketID 
+{{{0}
+}}
+
+{1}
+";
+        // {0} 패킷 이름
+        // {1} 패킷 번호
+        public static string packetEnumFormat = @"{0} = {1},";
+
+        // ======================= [ 패킷 포멧 ] ===================================
+
         // {0} 패킷 이름
         // {1} 멤버 변수들
         // {2} 멤버변수 Read
@@ -28,12 +51,12 @@ namespace PacketGenerator
 
     public ArraySegment<byte> Write()
     {{
-        ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
+        ArraySegment<byte> segment = SendBufferHelper.Open(4096);
 
         ushort count = 0;
         bool success = true;
 
-        Span<byte> s = new Span<byte>(openSegment.Array, openSegment.Offset, openSegment.Count);
+        Span<byte> s = new Span<byte>(segment.Array, segment.Offset, segment.Count);
 
         count += sizeof(ushort);
         success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.{0});
@@ -59,7 +82,8 @@ namespace PacketGenerator
         // {3} 멤버변수 Read
         // {4} 멤버변수 Write
         public static string memberListFormat =
-@"public struct {0}
+@"
+public class {0}
 {{
     {2}
 
@@ -124,8 +148,20 @@ count += sizeof({1});";
 
         // {0} 변수 이름
         public static string writeStringFormat =
-@"ushort {0}Len = (ushort)Encoding.Unicode.GetBytes(this.{0}, 0, this.{0}.Length, openSegment.Array, openSegment.Offset + count + sizeof(ushort));
+@"ushort {0}Len = (ushort)Encoding.Unicode.GetBytes(this.{0}, 0, this.{0}.Length, segment.Array, segment.Offset + count + sizeof(ushort));
 success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), {0}Len);
 count += (ushort)(sizeof(ushort) + {0}Len);";
+
+        // {0} 변수 이름
+        // {1} 변수 형식 byte, sbyte
+        public static string readByteFormat =
+@"this.{0} = ({1})segment.Array[segment.Offset + count];
+count += sizeof({1});";
+
+        // {0} 변수 이름
+        // {1} 변수 형식 byte, sbyte
+        public static string writeByteFormat =
+@"segment.Array[segment.Offset + count] = (byte)this.{0};
+count += sizeof({1});";
     }
 }
