@@ -13,16 +13,15 @@ namespace PacketGenerator
         public static string fileFormat =
 @"using System;
 using System.Text;
-using System.Net;
 using System.Collections.Generic;
 using ServerCore;
+
+// version 0.0.5
 
 public enum PacketID 
 {{{0}
 }}
-
-{1}
-";
+{1}";
         // {0} 패킷 이름
         // {1} 패킷 번호
         public static string packetEnumFormat = @"{0} = {1},";
@@ -34,7 +33,8 @@ public enum PacketID
         // {2} 멤버변수 Read
         // {3} 멤버변수 Write
         public static string packetFormat =
-@"class {0}
+@"
+class {0}
 {{
     {1}
 
@@ -87,14 +87,18 @@ public class {0}
 {{
     {2}
 
-    public void Read(ReadOnlySpan<byte> s, ref ushort count)
+    public void Read(ArraySegment<byte> segment, ref ushort count)
     {{
+        ReadOnlySpan<byte> s = new ReadOnlySpan<byte>(segment.Array, segment.Offset, segment.Count);
+
         {3}
     }}
 
-    public bool Write(Span<byte> s, ref ushort count)
+    public bool Write(ArraySegment<byte> segment, ref ushort count)
     {{
+        Span<byte> s = new Span<byte>(segment.Array, segment.Offset, segment.Count);
         bool success = true;
+
         {4}
 
         return success;
@@ -112,7 +116,7 @@ count += sizeof(ushort);
 for (int i = 0; i < {1}Len; i++)
 {{
     {0} {1} = new {0}();
-    {1}.Read(s, ref count);
+    {1}.Read(segment, ref count);
     {1}s.Add({1});
 }}";
 
@@ -123,7 +127,7 @@ for (int i = 0; i < {1}Len; i++)
 count += sizeof(ushort);
 foreach ({0} {1} in this.{1}s)
 {{
-    success &= {1}.Write(s, ref count);
+    success &= {1}.Write(segment, ref count);
 }}";
 
         // {0} 변수 이름
@@ -163,5 +167,8 @@ count += sizeof({1});";
         public static string writeByteFormat =
 @"segment.Array[segment.Offset + count] = (byte)this.{0};
 count += sizeof({1});";
+
+
+        //s.ToArray(), count + sizeof(ushort));
     }
 }

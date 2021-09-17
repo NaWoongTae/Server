@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PDL>
+  <packet name="PlayerInfoReq">
+    <byte name ="check"/>
+    <int name ="PlayerId"/>
+    <string name ="nicName"/>
+    <list name="weapon">
+      <byte name ="equip"/>
+      <short name ="id"/>
+      <int name ="level"/>
+      <string name ="weaponName"/>
+      <list name="skill">
+        <int name="att"/>
+        <int name="cost"/>
+      </list>
+    </list>
+  </packet>
+  <packet name="Inventory">
+    <list name="item">
+      <string name="temName"/>
+      <int name="count"/>
+    </list>
+  </packet>
+</PDL>

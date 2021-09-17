@@ -1,0 +1,16 @@
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\PacketGenerator.exe
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\PacketGenerator.deps.json
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.json
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.dev.json
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\PacketGenerator.dll
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\PacketGenerator.pdb
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.csprojAssemblyReference.cache
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfoInputs.cache
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfo.cs
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.CoreCompileInputs.cache
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.dll
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.pdb
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\ServerCore.dll
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\ServerCore.pdb
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.CopyComplete

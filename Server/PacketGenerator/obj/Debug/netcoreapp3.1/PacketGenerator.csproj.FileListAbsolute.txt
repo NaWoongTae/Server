@@ -11,3 +11,9 @@ D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\netcorea
 D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.dll
 D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.pdb
 D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.genruntimeconfig.cache
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\netcoreapp3.1\PacketGenerator.exe
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\netcoreapp3.1\PacketGenerator.deps.json
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\netcoreapp3.1\PacketGenerator.runtimeconfig.json
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\netcoreapp3.1\PacketGenerator.runtimeconfig.dev.json
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\netcoreapp3.1\PacketGenerator.dll
+D:\2021unity\VisualStudio_Study\Server\Server\PacketGenerator\bin\netcoreapp3.1\PacketGenerator.pdb
