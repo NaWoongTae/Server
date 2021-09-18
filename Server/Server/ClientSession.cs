@@ -32,34 +32,7 @@ namespace Server
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            ushort count = 0;
-            ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-            count += sizeof(ushort);
-            ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-            count += sizeof(ushort);
-            switch ((PacketID)id)
-            {
-                case PacketID.PlayerInfoReq:
-                    {
-                        PlayerInfoReq p = new PlayerInfoReq();
-                        p.Read(buffer);
-
-						Console.WriteLine($"플레이어 체크 : {p.check}");
-						Console.WriteLine($"플레이어 ID : {p.PlayerId} // 닉네임 : {p.nicName}");
-                        foreach (PlayerInfoReq.Weapon weapons in p.weapons)
-                        {
-							Console.WriteLine($"    ㄴ장비 ID : {weapons.id} // 장비레벨 : {weapons.level} // 장착여부 : {weapons.equip}");
-							Console.WriteLine($"    ㄴ장비 스킬");
-							for (int j = 0; j < weapons.skills.Count; j++)
-							{
-								Console.WriteLine($"        ㄴ공격력 : {weapons.skills[j].att} // 비용 : {weapons.skills[j].cost}");
-							}							
-						}
-                    }
-                    break;
-            }
-
-            Console.WriteLine($"RecvPacketId - size : {size}, id : {id}");
+            PacketManager.Instance.OnRecvPacket(this, buffer);
         }
 
         public override void OnDisconnected(EndPoint endPoint)

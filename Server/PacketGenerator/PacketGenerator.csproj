@@ -18,8 +18,4 @@
     <ProjectReference Include="..\ServerCore\ServerCore.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="CALL &quot;$(SolutionDir)Common\Packet\GenPackets.bat&quot;" />
-  </Target>
-
 </Project>

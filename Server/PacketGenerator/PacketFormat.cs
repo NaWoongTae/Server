@@ -16,10 +16,17 @@ using System.Text;
 using System.Collections.Generic;
 using ServerCore;
 
-// version 0.0.5
+// version 0.0.6
 
 public enum PacketID 
 {{{0}
+}}
+
+interface IPacket
+{{
+	ushort Protocol {{ get; }}
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
 }}
 {1}";
         // {0} 패킷 이름
@@ -34,9 +41,11 @@ public enum PacketID
         // {3} 멤버변수 Write
         public static string packetFormat =
 @"
-class {0}
+class {0} : IPacket
 {{
     {1}
+
+    public ushort Protocol {{ get => (ushort)PacketID.{0}; }}
 
     public void Read(ArraySegment<byte> segment)
     {{

@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using ServerCore;
 
-// version 0.0.3
+// version 0.0.6
 
 public enum PacketID 
 {
@@ -11,7 +11,14 @@ public enum PacketID
 	Inventory = 2,
 }
 
-class PlayerInfoReq
+interface IPacket
+{
+	ushort Protocol { get; }
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+}
+
+class PlayerInfoReq : IPacket
 {
     public byte check;
 	public int PlayerId;
@@ -107,6 +114,8 @@ class PlayerInfoReq
 	
 	public List<Weapon> weapons = new List<Weapon>();
 
+    public ushort Protocol { get => (ushort)PacketID.PlayerInfoReq; }
+
     public void Read(ArraySegment<byte> segment)
     {
         ushort count = 0;
@@ -169,7 +178,7 @@ class PlayerInfoReq
         return SendBufferHelper.Close(count);
     }
 }
-class Inventory
+class Inventory : IPacket
 {
     
 	public class Item
@@ -205,6 +214,8 @@ class Inventory
 	}
 	
 	public List<Item> items = new List<Item>();
+
+    public ushort Protocol { get => (ushort)PacketID.Inventory; }
 
     public void Read(ArraySegment<byte> segment)
     {
