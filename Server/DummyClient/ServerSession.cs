@@ -14,16 +14,16 @@ namespace DummyClient
         {
             Console.WriteLine($"OnConnected : {endPoint}");
 
-            PlayerInfoReq packet = new PlayerInfoReq() { PlayerId = 1001, nicName = "마릴린" };
+            C_PlayerInfoReq packet = new C_PlayerInfoReq() { PlayerId = 1001, nicName = "마릴린" };
             {
-				List<PlayerInfoReq.Weapon.Skill> att = new List<PlayerInfoReq.Weapon.Skill>();
-				att.Add(new PlayerInfoReq.Weapon.Skill() { att = 15, cost = 17 });
-				att.Add(new PlayerInfoReq.Weapon.Skill() { att = 10, cost = 52 });
-                packet.weapons.Add(new PlayerInfoReq.Weapon() { equip = 2, id = 10151, level = 6, weaponName = "망치", skills = att });
-				List<PlayerInfoReq.Weapon.Skill> att2 = new List<PlayerInfoReq.Weapon.Skill>();
-				att.Add(new PlayerInfoReq.Weapon.Skill() { att = 135, cost = 67 });
-				att.Add(new PlayerInfoReq.Weapon.Skill() { att = 510, cost = 521 });
-                packet.weapons.Add(new PlayerInfoReq.Weapon() { equip = 1, id = 14758, level = 1, weaponName = "칼치", skills = att2 });
+				List<C_PlayerInfoReq.Weapon.Skill> att = new List<C_PlayerInfoReq.Weapon.Skill>();
+				att.Add(new C_PlayerInfoReq.Weapon.Skill() { att = 15, cost = 17 });
+				att.Add(new C_PlayerInfoReq.Weapon.Skill() { att = 10, cost = 52 });
+                packet.weapons.Add(new C_PlayerInfoReq.Weapon() { equip = 2, id = 10151, level = 6, weaponName = "망치", skills = att });
+				List<C_PlayerInfoReq.Weapon.Skill> att2 = new List<C_PlayerInfoReq.Weapon.Skill>();
+				att.Add(new C_PlayerInfoReq.Weapon.Skill() { att = 135, cost = 67 });
+				att.Add(new C_PlayerInfoReq.Weapon.Skill() { att = 510, cost = 521 });
+                packet.weapons.Add(new C_PlayerInfoReq.Weapon() { equip = 1, id = 14758, level = 1, weaponName = "칼치", skills = att2 });
 			}
 
             ArraySegment<byte> s = packet.Write();

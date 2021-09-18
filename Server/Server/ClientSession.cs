@@ -9,17 +9,6 @@ using System.Collections.Generic;
 
 namespace Server
 {
-    //public abstract class Packet
-    //{
-    //    public ushort size;
-    //    public ushort packetId;
-
-    //    public abstract ArraySegment<byte> Write();
-    //    public abstract void Read(ArraySegment<byte> s);
-    //}
-
-	
-
 	class ClientSession : PacketSession
     {
         public override void OnConnected(EndPoint endPoint)

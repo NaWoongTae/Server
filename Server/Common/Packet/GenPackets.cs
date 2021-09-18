@@ -7,8 +7,8 @@ using ServerCore;
 
 public enum PacketID 
 {
-	PlayerInfoReq = 1,
-	Inventory = 2,
+	C_PlayerInfoReq = 1,
+	S_Inventory = 2,
 }
 
 interface IPacket
@@ -18,7 +18,7 @@ interface IPacket
 	ArraySegment<byte> Write();
 }
 
-class PlayerInfoReq : IPacket
+class C_PlayerInfoReq : IPacket
 {
     public byte check;
 	public int PlayerId;
@@ -114,7 +114,7 @@ class PlayerInfoReq : IPacket
 	
 	public List<Weapon> weapons = new List<Weapon>();
 
-    public ushort Protocol { get => (ushort)PacketID.PlayerInfoReq; }
+    public ushort Protocol { get => (ushort)PacketID.C_PlayerInfoReq; }
 
     public void Read(ArraySegment<byte> segment)
     {
@@ -153,7 +153,7 @@ class PlayerInfoReq : IPacket
         Span<byte> s = new Span<byte>(segment.Array, segment.Offset, segment.Count);
 
         count += sizeof(ushort);
-        success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.PlayerInfoReq);
+        success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.C_PlayerInfoReq);
         count += sizeof(ushort);
 
         segment.Array[segment.Offset + count] = (byte)this.check;
@@ -178,7 +178,7 @@ class PlayerInfoReq : IPacket
         return SendBufferHelper.Close(count);
     }
 }
-class Inventory : IPacket
+class S_Inventory : IPacket
 {
     
 	public class Item
@@ -215,7 +215,7 @@ class Inventory : IPacket
 	
 	public List<Item> items = new List<Item>();
 
-    public ushort Protocol { get => (ushort)PacketID.Inventory; }
+    public ushort Protocol { get => (ushort)PacketID.S_Inventory; }
 
     public void Read(ArraySegment<byte> segment)
     {
@@ -246,7 +246,7 @@ class Inventory : IPacket
         Span<byte> s = new Span<byte>(segment.Array, segment.Offset, segment.Count);
 
         count += sizeof(ushort);
-        success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.Inventory);
+        success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.S_Inventory);
         count += sizeof(ushort);
 
         success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)this.items.Count);
