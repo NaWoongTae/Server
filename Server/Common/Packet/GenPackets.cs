@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using ServerCore;
 
-// version 0.0.6
+// version 0.0.7
 
 public enum PacketID 
 {

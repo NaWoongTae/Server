@@ -13,7 +13,7 @@ namespace Server
         {
             S_Chat packet = new S_Chat();
             packet.playerId = session.SessionId;
-            packet.chat = chat;
+            packet.chat = $"{packet.playerId} : {chat}";
 
             ArraySegment<byte> segment = packet.Write();
 

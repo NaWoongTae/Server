@@ -15,8 +15,6 @@ namespace Server
 
         static void Main(string[] args)
         {
-            PacketManager.Instance.Register();
-
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress Adrs = host.AddressList[0];
             IPEndPoint endPoint = new IPEndPoint(Adrs, 7777);
