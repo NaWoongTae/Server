@@ -14,7 +14,7 @@ namespace PacketGenerator
 using System.Collections.Generic;
 using ServerCore;
 
-// 21.09.19
+// 21.09.20
 
 class PacketManager
 {{
@@ -80,7 +80,7 @@ using System.Text;
 using System.Collections.Generic;
 using ServerCore;
 
-// version 0.0.6
+// version 0.0.7
 
 public enum PacketID 
 {{{0}
