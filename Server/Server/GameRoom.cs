@@ -1,13 +1,19 @@
-﻿using System;
+﻿using ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Server
 {
-    class GameRoom
+    class GameRoom : IJobQueue
     {
         List<ClientSession> _session = new List<ClientSession>();
-        object _lock = new object();
+        JobQueue _jobQueue = new JobQueue();
+
+        public void Push(Action job)
+        {
+            _jobQueue.Push(job);
+        }
 
         public void Broadcase(ClientSession session, string chat)
         {
@@ -17,30 +23,21 @@ namespace Server
 
             ArraySegment<byte> segment = packet.Write();
 
-            lock (_lock)
+            foreach (ClientSession s in _session)
             {
-                foreach (ClientSession s in _session)
-                {
-                    s.Send(segment);
-                }
+                s.Send(segment);
             }
         }
 
         public void Enter(ClientSession session)
         {
-            lock (_lock)
-            {
-                _session.Add(session);
-                session.Room = this;
-            }
+            _session.Add(session);
+            session.Room = this;
         }
 
         public void Leave(ClientSession session)
         {
-            lock (_lock)
-            {
-                _session.Remove(session);
-            }
+            _session.Remove(session);
         }
     }
 }

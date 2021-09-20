@@ -14,7 +14,8 @@ class PacketHandler
         if (clientSession.Room == null)
             return;
 
-        clientSession.Room.Broadcase(clientSession, chatPacket.chat);
+        GameRoom room = clientSession.Room;
+        room.Push(() => room.Broadcase(clientSession, chatPacket.chat));        
     }
 }
 
