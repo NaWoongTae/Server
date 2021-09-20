@@ -15,7 +15,7 @@ namespace Server
         public GameRoom Room { get; set; }
         public override void OnConnected(EndPoint endPoint)
         {
-            Console.WriteLine($"OnConnected : {endPoint}");
+            // Console.WriteLine($"OnConnected : {endPoint}");
 
             // TODO
             Program.Room.Push(()=> Program.Room.Enter(this));
@@ -41,7 +41,7 @@ namespace Server
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine($"S Transferred bytes: {numOfBytes}");
+            // Console.WriteLine($"S Transferred bytes: {numOfBytes}");
         }
     }
 }

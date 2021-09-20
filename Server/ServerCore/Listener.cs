@@ -14,18 +14,21 @@ namespace ServerCore
         Func<Session> _sessionFactory;
 
         // 초기화
-        public void Init(IPEndPoint endPoint, Func<Session> sessionFactory)
+        public void Init(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
         {
             _listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _sessionFactory += sessionFactory;
 
             _listenSocket.Bind(endPoint);
 
-            _listenSocket.Listen(10); // 최대 대기수
+            _listenSocket.Listen(backlog); // backlog : 최대 대기수
 
-            SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-            args.Completed += new EventHandler<SocketAsyncEventArgs>(OnAcceptCompleted);
-            RegisterAccept(args);
+            for (int i = 0; i < register; i++)
+            {
+                SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+                args.Completed += new EventHandler<SocketAsyncEventArgs>(OnAcceptCompleted);
+                RegisterAccept(args);
+            }
         }
 
         // 등록
