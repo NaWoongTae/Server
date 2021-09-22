@@ -23,7 +23,8 @@ namespace Server
 
             while (true) //(임시) 프로그램 종료 방지
             {
-
+                Room.Push(() => Room.Flush());
+                Thread.Sleep(250);
             }
         }
     }

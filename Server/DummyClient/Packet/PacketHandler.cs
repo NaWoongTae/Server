@@ -12,7 +12,7 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
 
         // if (p.playerId < 3)
-            Console.WriteLine(p.chat);
+            //Console.WriteLine(p.chat);
     }
 }
 
