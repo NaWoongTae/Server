@@ -13,6 +13,12 @@ namespace Server
         static Listener _listener = new Listener();
         public static GameRoom Room = new GameRoom();
 
+        static void FlushRoom()
+        {
+            Room.Push(() => Room.Flush());
+            JobTimer.Instance.Push(FlushRoom, 250);
+        }
+
         static void Main(string[] args)
         {
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -21,10 +27,11 @@ namespace Server
 
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generator(); });
 
+            FlushRoom();
+            // JobTimer.Instance.Push(FlushRoom);
             while (true) //(임시) 프로그램 종료 방지
             {
-                Room.Push(() => Room.Flush());
-                Thread.Sleep(250);
+                JobTimer.Instance.Flush();
             }
         }
     }
