@@ -25,7 +25,7 @@ namespace DummyClient
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            Console.WriteLine($"OnDisconnected : {endPoint}");
+            //Console.WriteLine($"OnDisconnected : {endPoint}");
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
@@ -35,7 +35,7 @@ namespace DummyClient
 
         public override void OnSend(int numOfBytes)
         {
-            // Console.WriteLine($"C Transferred bytes: {numOfBytes}");
+            //Console.WriteLine($"C Transferred bytes: {numOfBytes}");
         }
     }
 }

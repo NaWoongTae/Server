@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ServerCore;
 
-// 21.09.20
+// 21.09.24
 
 class PacketManager
 {

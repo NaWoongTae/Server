@@ -11,8 +11,8 @@ class PacketHandler
         S_Chat p = packet as S_Chat;
         ServerSession serverSession = session as ServerSession;
 
-        // if (p.playerId < 3)
-            //Console.WriteLine(p.chat);
+        if (p.playerId == 1)
+            Console.WriteLine(p.chat);
     }
 }
 
