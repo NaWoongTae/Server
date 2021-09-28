@@ -21,7 +21,7 @@ namespace DummyClient
                 {
                     C_Move movePacket = new C_Move();
                     movePacket.posX = _rand.Next(-50, 50);
-                    movePacket.posY = 0;
+                    movePacket.posY = 1;
                     movePacket.posZ = _rand.Next(-50, 50);
 
                     session.Send(movePacket.Write());

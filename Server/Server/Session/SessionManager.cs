@@ -44,6 +44,7 @@ namespace Server
             lock (_lock)
             {
                 _sessions.Remove(session.SessionId);
+                --_sessionId;
             }
         }
     }

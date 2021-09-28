@@ -7,21 +7,36 @@ using UnityEngine;
 
 class PacketHandler
 {
-    public static void S_ChatHandler(PacketSession session, IPacket packet)
+    public static void S_BroadcaseEnterGameHandler(PacketSession session, IPacket packet)
     {
-        S_Chat p = packet as S_Chat;
+        S_BroadcaseEnterGame bEnter = packet as S_BroadcaseEnterGame;
         ServerSession serverSession = session as ServerSession;
 
-        // if (p.playerId == 1)
-        {
-            Debug.Log(p.playerId + " : " + p.chat);
+        PlayerManager.Instance.EnterGame(bEnter);
+    }
 
-            GameObject go = GameObject.Find("Player");
-            if (go == null)
-                Debug.Log("404 Not Found");
-            else
-                Debug.Log("Player found");
-        }        
+    public static void S_BroadcaseLeaveGameHandler(PacketSession session, IPacket packet)
+    {
+        S_BroadcaseLeaveGame bLeave = packet as S_BroadcaseLeaveGame;
+        ServerSession serverSession = session as ServerSession;
+
+        PlayerManager.Instance.LeaveGame(bLeave);
+    }
+
+    public static void S_PlayerListHandler(PacketSession session, IPacket packet)
+    {
+        S_PlayerList list = packet as S_PlayerList;
+        ServerSession serverSession = session as ServerSession;
+
+        PlayerManager.Instance.Add(list);
+    }
+
+    public static void S_BroadcaseMoveHandler(PacketSession session, IPacket packet)
+    {
+        S_BroadcaseMove move = packet as S_BroadcaseMove;
+        ServerSession serverSession = session as ServerSession;
+
+        PlayerManager.Instance.Move(move);
     }
 }
 
