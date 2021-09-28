@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Network\Packet\ClientPacketManager.cs" />
     <Compile Include="Assets\Scripts\Network\Packet\GenPackets.cs" />
     <Compile Include="Assets\Scripts\Network\Packet\PacketHandler.cs" />
+    <Compile Include="Assets\Scripts\Network\PacketQueue.cs" />
     <Compile Include="Assets\Scripts\Network\RecvBuffer.cs" />
     <Compile Include="Assets\Scripts\Network\SendBuffer.cs" />
     <Compile Include="Assets\Scripts\Network\ServerSession.cs" />

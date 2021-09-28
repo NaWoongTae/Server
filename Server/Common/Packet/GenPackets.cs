@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using ServerCore;
 
-// version 0.0.8
+// version 0.0.9
 
 public enum PacketID 
 {
@@ -11,7 +11,7 @@ public enum PacketID
 	S_Chat = 2,
 }
 
-interface IPacket
+public interface IPacket
 {
 	ushort Protocol { get; }
 	void Read(ArraySegment<byte> segment);

@@ -12,8 +12,16 @@ class PacketHandler
         S_Chat p = packet as S_Chat;
         ServerSession serverSession = session as ServerSession;
 
-        if (p.playerId < 3)
+        // if (p.playerId == 1)
+        {
             Debug.Log(p.playerId + " : " + p.chat);
+
+            GameObject go = GameObject.Find("Player");
+            if (go == null)
+                Debug.Log("404 Not Found");
+            else
+                Debug.Log("Player found");
+        }        
     }
 }
 
