@@ -4,7 +4,7 @@ using ServerCore;
 
 // 21.09.28
 
-class PacketManager
+public class PacketManager
 {
     #region Singleton
 
@@ -23,8 +23,14 @@ class PacketManager
 
     public void Register()
     {
-      _makeFunc.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
-        _handler.Add((ushort)PacketID.S_Chat, PacketHandler.S_ChatHandler);
+        _makeFunc.Add((ushort)PacketID.S_BroadcaseEnterGame, MakePacket<S_BroadcaseEnterGame>);
+        _handler.Add((ushort)PacketID.S_BroadcaseEnterGame, PacketHandler.S_BroadcaseEnterGameHandler);
+_makeFunc.Add((ushort)PacketID.S_BroadcaseLeaveGame, MakePacket<S_BroadcaseLeaveGame>);
+        _handler.Add((ushort)PacketID.S_BroadcaseLeaveGame, PacketHandler.S_BroadcaseLeaveGameHandler);
+_makeFunc.Add((ushort)PacketID.S_PlayerList, MakePacket<S_PlayerList>);
+        _handler.Add((ushort)PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
+_makeFunc.Add((ushort)PacketID.S_BroadcaseMove, MakePacket<S_BroadcaseMove>);
+        _handler.Add((ushort)PacketID.S_BroadcaseMove, PacketHandler.S_BroadcaseMoveHandler);
         
     }
 

@@ -14,10 +14,10 @@ namespace DummyClient
         {
             Console.WriteLine($"OnConnected : {endPoint}");
 
-            C_Chat packet = new C_Chat() {  };
-            packet.chat = "안녕하세요";
+            //C_Chat packet = new C_Chat() {  };
+            //packet.chat = "안녕하세요";
 
-            ArraySegment<byte> s = packet.Write();
+            ArraySegment<byte> s = null;// = packet.Write();
 
             if (s != null)
                 Send(s);            

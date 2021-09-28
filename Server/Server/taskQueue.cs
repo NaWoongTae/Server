@@ -23,7 +23,7 @@ namespace Server
 
         public void Execute()
         {
-            _room.Broadcase(_session, _chat);
+            //_room.Broadcase(_session, _chat);
         }
     }
 

@@ -16,7 +16,7 @@ using ServerCore;
 
 // 21.09.28
 
-class PacketManager
+public class PacketManager
 {{
     #region Singleton
 
@@ -88,7 +88,7 @@ using System.Text;
 using System.Collections.Generic;
 using ServerCore;
 
-// version 0.0.9
+// version 0.0.10
 
 public enum PacketID 
 {{{0}
@@ -113,7 +113,7 @@ public interface IPacket
         // {3} 멤버변수 Write
         public static string packetFormat =
 @"
-class {0} : IPacket
+public class {0} : IPacket
 {{
     {1}
 
