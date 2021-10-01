@@ -1,4 +1,4 @@
--- USE BaseballData;
+USE BaseballData;
 
 /* 여러줄 주석 */
 -- 한줄 주석
@@ -77,3 +77,10 @@ SELECT TRIM('         SPACE             ') -- 스페이스 날리기
 SELECT nameFirst + ' ' + nameLast AS fullName, 2022 - birthYear AS koreanAge
 FROM players
 WHERE nameFirst IS NOT NULL AND nameLast IS NOT NULL
+
+-- DATETIME ==========================================================================
+-- DATE 연/월/일
+-- TIME 시/분/초
+-- DATETIME 연/월/일/시/분/초
+SELECT nameFirst + ' ' + nameLast AS fullName, debut, finalGame
+FROM players
