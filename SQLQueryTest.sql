@@ -46,3 +46,28 @@ SELECT TOP 1 *
 FROM batting
 WHERE teamID = 'BOS'
 ORDER BY HR DESC;
+
+-- 4-2) (보스턴 팀 소속으로) 년도별 최다 홈런을 친 사람의 정보
+SELECT teamID, yearID, HR
+FROM batting
+WHERE teamID = 'BOS'
+GROUP BY teamID, yearID, HR
+HAVING HR = MAX(HR)
+ORDER BY yearID;
+
+-- 5) 2004년도에 가장 많은 홈런을 날린팀은? ----- Grouping
+SELECT teamID, COUNT(teamID) AS playerCount, SUM(HR) AS homeRuns
+FROM batting
+WHERE yearID = 2004
+GROUP BY teamID
+ORDER BY homeRuns DESC;
+
+--6) 2004년 200홈런 이상 날린 팀의 목록
+-- FROM -> WHERE -> (GROUP BY-> (HAVING)) -> SELECT -> ORDER BY
+-- HAVING : 그룹안의 WHERE
+SELECT teamID, COUNT(teamID) AS playerCount, SUM(HR) AS homeRuns
+FROM batting
+WHERE yearID = 2004
+GROUP BY teamID
+HAVING SUM(HR) >= 200
+ORDER BY homeRuns DESC;

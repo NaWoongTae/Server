@@ -20,7 +20,7 @@ FROM players
 where birthCountry != 'USA' AND birthYear > 1980
 
 -- SELECT -> FROM -> WHERE -> ORDER BY 사용순서
--- FROM -> WHERE -> SELECT -> ORDER BY 동작순서
+-- FROM -> WHERE -> GROUP BY-> SELECT -> ORDER BY 동작순서
 -- 대소문자 상관 없음
 -- AND OR - (AND문 우선)
 
