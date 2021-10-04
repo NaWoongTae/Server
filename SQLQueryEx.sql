@@ -153,3 +153,68 @@ FROM players;
 -- MIN MAX - 날짜에도 가능
 SELECT MIN(weight) AS minWeight, MAX(weight) AS maxWeight
 FROM players
+
+-- SubQuery ==========================================================================
+-- 서브쿼리/하위쿼리
+-- SQL 명령문 안에 지정하는 하부 SELECT
+
+-- 연봉이 역대급으로 높은 선수의 정보를 추출
+SELECT TOP 1 *
+FROM salaries
+ORDER BY salary DESC;
+
+-- 1등(rodrial101)을 찾고 -> 다시 1등의 정보를 찾아야함
+SELECT *
+FROM players
+WHERE playerID = 'rodrial01';
+
+-- 한번에 하려면? 
+-- => 단일행 서브쿼리
+SELECT *
+FROM players
+WHERE playerID = (SELECT TOP 1 playerID FROM salaries ORDER BY salary DESC); 
+
+-- => 다중행 서브쿼리
+SELECT *
+FROM players
+-- WHERE playerID = (SELECT TOP 20 playerID FROM salaries ORDER BY salary DESC); -- 단일 = 다중 비교
+WHERE playerID IN (SELECT TOP 20 playerID FROM salaries ORDER BY salary DESC);
+
+-- 서브쿼리는 WHERE에서 가장 많이 사용되지만 , 나머지 구문에서도 사용가능
+SELECT (SELECT COUNT(*) FROM players) AS pCount, (SELECT COUNT(*) FROM batting) AS bCount;
+
+-- INSERT에서도 가능
+SELECT *
+FROM salaries
+ORDER BY yearID DESC;
+
+-- INSERT INTO ~ VALUES / INSERT INTO ~ SELECT 비슷함
+INSERT INTO salaries
+VALUES (2021, 'JAP', 'NL', 'voo', (SELECT MIN(salary) FROM salaries));
+
+INSERT INTO salaries
+SELECT 2021, 'JAP', 'NL', 'roo', (SELECT MIN(salary) FROM salaries));
+
+-- INSERT INTO ~ SELECT ~ 의 다른용도
+SELECT *
+FROM salaries_temp
+ORDER BY yearID DESC;
+
+INSERT INTO salaries_temp
+SELECT yearID, playerID, salary FROM salaries;
+
+-- 상관관계 서브쿼리
+-- EXISTS, NOT EXISTS 존재 유무
+-- 당장 자유자재로 사용은 못해도 되니까 -> 기억만
+
+-- 포스트 시즌 타격에 참여한 선수들 목록
+SELECT *
+FROM players
+WHERE playerID IN 
+	(SELECT playerID FROM battingpost ); 
+
+SELECT *
+FROM players
+WHERE EXISTS (SELECT playerID FROM battingpost WHERE battingpost.playerID = players.playerID); -- 상관관계에서는 단일행 실행불가
+
+-- ctrl + L 성능비교

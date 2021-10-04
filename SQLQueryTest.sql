@@ -48,12 +48,10 @@ WHERE teamID = 'BOS'
 ORDER BY HR DESC;
 
 -- 4-2) (보스턴 팀 소속으로) 년도별 최다 홈런을 친 사람의 정보
-SELECT teamID, yearID, HR
+SELECT *
 FROM batting
 WHERE teamID = 'BOS'
-GROUP BY teamID, yearID, HR
-HAVING HR = MAX(HR)
-ORDER BY yearID;
+ORDER BY yearID, HR DESC
 
 -- 5) 2004년도에 가장 많은 홈런을 날린팀은? ----- Grouping
 SELECT teamID, COUNT(teamID) AS playerCount, SUM(HR) AS homeRuns
