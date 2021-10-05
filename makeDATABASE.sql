@@ -55,3 +55,16 @@ WHERE accountId = 1111;
 -- PRIMARY KEY는 C#의 다음과 비슷하다
 -- LIST<Account>
 -- DIctionary<int, Account>
+
+-- 인덱스 CREATE INDEX / DROP INDEX
+
+CREATE INDEX i1 ON accounts(accountName);
+CREATE INDEX i1 ON accounts(accountName, coins);
+CREATE UNIQUE INDEX i1 ON accounts(accountName);
+
+DROP INDEX accounts.i1;
+
+CREATE CLUSTERED INDEX i1 ON accounts(accountName);
+
+INSERT INTO accounts 
+Values (1, N'가', 10, CURRENT_TIMESTAMP);
