@@ -68,3 +68,73 @@ CREATE CLUSTERED INDEX i1 ON accounts(accountName);
 
 INSERT INTO accounts 
 Values (1, N'가', 10, CURRENT_TIMESTAMP);
+
+-- JOIN ===========================================================
+-- JOIN(결합)
+
+CREATE TABLE testA
+(
+	a INTEGER
+)
+CREATE TABLE testB
+(
+	b VARCHAR(10)
+)
+
+-- A(1,2,3)
+INSERT INTO testA VALUES(1);
+INSERT INTO testA VALUES(2);
+INSERT INTO testA VALUES(3);
+DELETE testA;
+--B('A','B','C')
+INSERT INTO testB VALUES('A');
+INSERT INTO testB VALUES('B');
+INSERT INTO testB VALUES('C');
+
+SELECT *
+FROM testA;
+SELECT *
+FROM testB;
+
+-- CROSS JOIN (교차 결합) : 데이터 전부 교차
+SELECT *
+FROM testA
+	CROSS JOIN testB;
+SELECT *
+FROM testB;
+
+-----------------------
+
+USE BaseballData;
+
+SELECT *
+FROM players
+ORDER BY playerID;
+SELECT *
+FROM salaries
+ORDER BY playerID;
+
+-- INNER JOIN (두 개의 테이블을 가로로 결합 + 결합 기준을 ON으로)
+-- 한쪽이라도 정보가 없으면 걸러진다.
+
+SELECT *
+FROM players
+	INNER JOIN salaries
+	ON players.playerID = salaries.playerID;
+
+-- OUTER JOIN (외부 결합)
+-- LEFT / RIGHT
+-- 어느 한쪽에만 존재하는 데이터 -> 정책?
+
+-- LEFT JOIN(두개의 테이블을 가로로 결합 + 결합 기준을 ON으로)
+-- LEFT의 데이터에 RIGHT를 갖다 붙이기 -- 없으면 데이터는 NULL로 채움
+SELECT *
+FROM players
+	LEFT JOIN salaries
+	ON players.playerID = salaries.playerID;
+
+-- RIGHT의 데이터에 LEFT를 갖다 붙이기 -- 없으면 데이터는 NULL로 채움
+SELECT *
+FROM players
+	RIGHT JOIN salaries
+	ON players.playerID = salaries.playerID;

@@ -218,3 +218,81 @@ FROM players
 WHERE EXISTS (SELECT playerID FROM battingpost WHERE battingpost.playerID = players.playerID); -- 상관관계에서는 단일행 실행불가
 
 -- ctrl + L 성능비교
+
+-- ===========================================================
+-- RDBMS (Relational 관계형)
+-- 데이터를 집합으로 간주
+
+-- 복수의 테이블을 다루는 방법
+
+-- 커리어 평균 연봉이 3000000 이상인 선수 playerID
+SELECT playerID, AVG(salary)
+FROM salaries
+GROUP BY playerID
+HAVING AVG(salary) >= 3000000
+
+-- 12월에 태어난 선수들의 playerID
+SELECT playerID, birthMonth
+FROM players
+WHERE birthMonth = 12;
+
+-- [커리어 평균 연봉이 3000000 이상] || [12월에 태어난 선수]들의 playerID
+
+-- UNION (자동 중복 제거) || OR
+SELECT playerID
+FROM salaries
+GROUP BY playerID
+HAVING AVG(salary) >= 3000000
+
+UNION
+
+SELECT playerID
+FROM players
+WHERE birthMonth = 12;
+
+-- UNION ALL (중복 허용) || OR
+SELECT playerID
+FROM salaries
+GROUP BY playerID
+HAVING AVG(salary) >= 3000000
+
+UNION ALL
+
+SELECT playerID
+FROM players
+WHERE birthMonth = 12
+
+ORDER BY playerID;
+
+-- [커리어 평균 연봉이 3000000 이상] && [12월에 태어난 선수]들의 playerID
+
+-- INTERSECT && AND
+SELECT playerID
+FROM salaries
+GROUP BY playerID
+HAVING AVG(salary) >= 3000000
+
+INTERSECT
+
+SELECT playerID
+FROM players
+WHERE birthMonth = 12
+
+ORDER BY playerID;
+
+-- [커리어 평균 연봉이 3000000 이상] - [12월에 태어난 선수]들의 playerID
+
+-- EXCEPT A - B
+SELECT playerID
+FROM salaries
+GROUP BY playerID
+HAVING AVG(salary) >= 3000000
+
+EXCEPT
+
+SELECT playerID
+FROM players
+WHERE birthMonth = 12
+
+ORDER BY playerID;
+
