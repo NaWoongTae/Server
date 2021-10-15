@@ -133,3 +133,18 @@ WHERE name = 'name104';
 SELECT TOP 5 * 
 FROM TestAccess
 ORDER BY name;
+
+SELECT TOP 10 *
+FROM TestAccess
+ORDER BY name;
+
+SELECT TOP 1 *
+FROM TestAccess
+ORDER BY name;
+
+SELECT *
+FROM TestAccess
+ORDER BY name;
+
+SELECT TOP 10 *
+FROM TestAccess;
