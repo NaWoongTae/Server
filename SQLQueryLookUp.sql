@@ -124,3 +124,98 @@ WHERE object_id = object_id('quickTest01');
 DBCC IND('Northwind', 'quickTest01', 2);
 
 DBCC PAGE('Northwind', 1, 1136, 3);
+
+
+-- =================================================================================================
+-- =================================================================================================
+
+-- 복합 인덱스 컬럼 순서
+-- Index(A, B, C)
+
+-- NonClustered
+--     1
+-- 2 3 4 5 6
+
+-- Clustered
+--     1
+-- 2 3 4 5 6
+
+-- Heap Table[ {Page} {Page} ]
+
+-- 북마크 룩업
+-- Leaf Page 탐색은 여전히 존재
+-- [레벨, 종족] 인덱스 (56 ~ 60 휴먼) - 스캔범위 넓어진다
+
+SELECT *
+INTO quickTest02
+FROM Orders;
+
+DECLARE @i INT = 1;
+DECLARE @emp INT;
+SELECT @emp = MAX(EmployeeID) FROM Orders;
+
+-- 더미 데이터 늘리기
+WHILE (@i < 1000)
+BEGIN
+	INSERT INTO quickTest02(CustomerID, EmployeeID, OrderDate)
+	SELECT CustomerID, @emp + @i, OrderDate
+	FROM Orders;
+	SET @i = @i + 1;
+END
+
+SELECT COUNT(*)
+FROM quickTest02;
+
+CREATE NONCLUSTERED INDEX idx_emp_ord
+ON quickTest02(EmployeeID, OrderDate);
+
+CREATE NONCLUSTERED INDEX idx_ord_emp
+ON quickTest02(OrderDate, EmployeeID);
+
+SET STATISTICS TIME ON;
+SET STATISTICS IO ON;
+
+-- 두개 비교
+SELECT *
+FROM quickTest02 WITH(INDEX(idx_emp_ord))
+WHERE EmployeeID = 1 AND OrderDate = '19970101';
+
+SELECT *
+FROM quickTest02 WITH(INDEX(idx_ord_emp))
+WHERE EmployeeID = 1 AND OrderDate = CONVERT(DATETIME, '19970101');
+
+-- 직접 살펴보자
+SELECT *
+FROM quickTest02
+ORDER BY EmployeeID, OrderDate;
+
+SELECT *
+FROM quickTest02
+ORDER BY OrderDate, EmployeeID;
+
+-- 범위로 찾는다면?
+SELECT *
+FROM quickTest02 WITH(INDEX(idx_emp_ord))
+WHERE EmployeeID = 1 AND OrderDate >= '19970101' AND OrderDate <= '19970103';
+
+SELECT *
+FROM quickTest02 WITH(INDEX(idx_ord_emp))
+WHERE EmployeeID = 1 AND OrderDate BETWEEN '19970101' AND '19970103';
+
+-- [!] Index(a, b, c)로 구성되었을 때, 선행에 between을 사용하면 => 후행은 인덱스 기능이 떨어진다.
+-- 그럼 BETWEEN 같은 비교가 등장하면 인덱스 순서만 무조건 바꿔주면 OK? -> NO
+
+-- BETWEEN 범위가 작을 때 ->IN - LIST로 대체하는 것을 고려(사실상 여러번 비교연산)
+SET STATISTICS PROFILE ON;
+
+SELECT *
+FROM quickTest02 WITH(INDEX(idx_ord_emp))
+WHERE EmployeeID = 1 AND OrderDate IN('19970101' ,'19970102', '19970103');
+-- 범위가 작을때는 차라리 1개씩 검색하는걸 여러번 돌리는게 낫다
+
+-- 결론 --
+
+-- 1) 복합 컬럼 인데스 (선행, 후행) 순서가 영향을 줄 수 있음
+-- 2) BETWEEN, 부등호 선행에 들어가면, 후행은 인덱스 기능 상실
+--		2번 상황에서) BETWEEN 범위가 적으면 IN - LIST로 대체하면 좋은 경우도 있다.
+
