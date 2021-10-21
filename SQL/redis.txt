@@ -1,0 +1,44 @@
+get key value
+set key
+
+- 다중
+mget key1 value1 key2 value2 key3 value3
+mset key1 key2 key3
+
+- 증감
+- value가 숫자 형태일때
+incr key
+decr key
+
+- 수명
+expire key second == 수명 설정
+ttl key == 남은 수명 확인
+- 결과값
+-1 : 설정된 수명 없음 = 무한
+-2 : 검색결과 없음 (+ 수명지나 삭제)
+
+========================================================
+
+2) set (중복없는 집합)
+sadd setKey key - setKey 그룹에 추가
+sinter setKey - setKey 검색
+srem setKey key - setKey 그룹에서 삭제
+
+3) 정렬된 set
+zadd rankKey score key - rankKey그룹에 key와 점수 추가
+zrange key start_number(0부터) end_number(-1넣으면 전체) - 작은 순서부터
+zrevrange key start_number(0부터) end_number(-1넣으면 전체) - 큰 순서부터
+
+4) 리스트
+lpush listkey key - 왼쪽으로 삽입
+rpush listkey key - 오른쪽으로 삽입
+lrange listkey start_number end_number - 전체 검색
+lpop listkey key - 가장왼쪽 꺼내기
+rpop listkey key - 가장오른쪽 꺼내기
+
+5) 해시
+hset key field value : key[field:value, field:value]
+hget key field : field 검색
+hlen key : 길이
+hdel key field : field 삭제
+hgetall key : 전체 field value 모두 출력
