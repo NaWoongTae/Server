@@ -40,6 +40,9 @@ namespace ccharpEx
 
         static async Task Main(string[] args)
         {
+            Playerjob pj = new Playerjob();
+            pj.Recruit();
+
             int ret = await TestAsyncWait();
 
             // t.Wait();

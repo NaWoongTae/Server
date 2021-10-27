@@ -4,10 +4,11 @@ D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\bin\Debug\netcoreapp3.1
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\bin\Debug\netcoreapp3.1\ccharpEx.runtimeconfig.dev.json
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\bin\Debug\netcoreapp3.1\ccharpEx.dll
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\bin\Debug\netcoreapp3.1\ccharpEx.pdb
-D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.csprojAssemblyReference.cache
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.AssemblyInfoInputs.cache
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.AssemblyInfo.cs
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.csproj.CoreCompileInputs.cache
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.dll
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.pdb
 D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.genruntimeconfig.cache
+D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.csproj.AssemblyReference.cache
+D:\2021unity\VisualStudio_Study\Server\ccharpEx\ccharpEx\obj\Debug\netcoreapp3.1\ccharpEx.GeneratedMSBuildEditorConfig.editorconfig
