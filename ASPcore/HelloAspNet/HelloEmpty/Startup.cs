@@ -17,7 +17,8 @@ namespace HelloEmpty
         public void ConfigureServices(IServiceCollection services)
         {
             // services.AddControllersWithViews();
-            services.AddRazorPages();
+            // services.AddRazorPages();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +45,10 @@ namespace HelloEmpty
                 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 // 3)
-                endpoints.MapRazorPages();
+                // endpoints.MapRazorPages();
+
+                // 4)
+                endpoints.MapControllers();
             });
         }
     }
