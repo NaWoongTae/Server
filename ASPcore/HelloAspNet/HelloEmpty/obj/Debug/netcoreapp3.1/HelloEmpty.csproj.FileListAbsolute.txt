@@ -26,8 +26,8 @@ D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\
 D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\HelloEmpty.TagHelpers.input.cache
 D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\HelloEmpty.TagHelpers.output.cache
 D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\HelloEmpty.RazorCoreGenerate.cache
-D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\HelloEmpty.RazorTargetAssemblyInfo.cs
 D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\HelloEmpty.Views.pdb
 D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\HelloEmpty.csproj.CopyComplete
-D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
+D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\Razor\Pages\Index.cshtml.g.cs
+D:\2021unity\VisualStudio_Study\Server\ASPcore\HelloAspNet\HelloEmpty\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
