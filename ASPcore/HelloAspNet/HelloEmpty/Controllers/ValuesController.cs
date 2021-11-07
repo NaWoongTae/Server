@@ -8,6 +8,8 @@ using HelloEmpty.Models;
 
 namespace HelloEmpty.Controllers
 {
+    // UI를 만들지 않고 데이터만 넘겨주고 니가 알아서 만들어라~
+
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
