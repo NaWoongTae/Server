@@ -1,0 +1,10 @@
+﻿@page "/binding"
+
+<h3>Binding</h3>
+
+<p>Value : @_value</p>
+<input type="range" min="17" max="158" step="1" @bind-value="_value" @bind-value:event="oninput"/>
+
+@code {
+    int _value = 150;
+}
