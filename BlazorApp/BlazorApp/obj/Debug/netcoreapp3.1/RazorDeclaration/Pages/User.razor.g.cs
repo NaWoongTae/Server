@@ -13,70 +13,70 @@ namespace BlazorApp.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 1 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 2 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 3 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 4 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 5 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 6 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 7 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 8 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using BlazorApp;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\user\source\repos\BlazorApp\BlazorApp\_Imports.razor"
+#line 9 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\_Imports.razor"
 using BlazorApp.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\user\source\repos\BlazorApp\BlazorApp\Pages\User.razor"
+#line 2 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\Pages\User.razor"
 using BlazorApp.Data;
 
 #line default
@@ -91,42 +91,33 @@ using BlazorApp.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 44 "C:\Users\user\source\repos\BlazorApp\BlazorApp\Pages\User.razor"
+#line 35 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\Pages\User.razor"
        
+
+    string _selectedColor = "Green";
+    List<string> _options = new List<string>() { "Green", "Red", "Blue" };
+
     List<UserData> _users = new List<UserData>();
+    ShowUser _showUser;
 
     string _inputName;
     string _btnClass = "btn btn-primary";
 
-    protected override void OnInitialized()
-    {
-        _users.Add(new UserData() { Name = "Jack" });
-        _users.Add(new UserData() { Name = "Lee" });
-        _users.Add(new UserData() { Name = "Tanaka" });
-        _users.Add(new UserData() { Name = "Monica" });
-        _users.Add(new UserData() { Name = "Ben" });
-        RefreshButton();
-    }
-
     void AddUser()
     {
-        _users.Add(new UserData() { Name = _inputName });
+        _showUser.AddUser(new UserData() { Name = _inputName });
         _inputName = "";
-        RefreshButton();
     }
 
     void RemoveUser(UserData user)
     {
         _users.Remove(user);
-        RefreshButton();
     }
 
-    void RefreshButton()
+    void callbackTest()
     {
-        if (_users.Count() % 2 == 0)
-            _btnClass = "btn btn-primary";
-        else
-            _btnClass = "btn btn-secondary";
+        _inputName = "유령회원";
+        // StateHasChanged();
     }
 
 #line default

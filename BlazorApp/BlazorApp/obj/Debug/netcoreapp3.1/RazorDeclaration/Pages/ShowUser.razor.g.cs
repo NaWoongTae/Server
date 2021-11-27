@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace BlazorApp.Shared
+namespace BlazorApp.Pages
 {
     #line hidden
     using System;
@@ -75,7 +75,14 @@ using BlazorApp.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class SurveyPrompt : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\Pages\ShowUser.razor"
+using BlazorApp.Data;
+
+#line default
+#line hidden
+#nullable disable
+    public partial class ShowUser : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -83,11 +90,37 @@ using BlazorApp.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 12 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\Shared\SurveyPrompt.razor"
+#line 30 "D:\2021unity\VisualStudio_Study\Server\BlazorApp\BlazorApp\Pages\ShowUser.razor"
        
-    // Demonstrates how a parent component can supply parameters
+    [CascadingParameter(Name = "ThemeColor")]
+    string Color { get; set; }
+
     [Parameter]
-    public string Title { get; set; }
+    public List<UserData> Users { get; set; }
+
+    [Parameter]
+    public EventCallback Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Users.Add(new UserData() { Name = "Jack" });
+        Users.Add(new UserData() { Name = "Lee" });
+        Users.Add(new UserData() { Name = "Tanaka" });
+        Users.Add(new UserData() { Name = "Monica" });
+        Users.Add(new UserData() { Name = "Ben" });
+    }
+
+    public void AddUser(UserData user)
+    {
+        Users.Add(user);
+    }
+
+    public void RemoveUser(UserData user)
+    {
+        Users.Remove(user);
+
+        Callback.InvokeAsync(null);
+    }
 
 #line default
 #line hidden
